@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class ItemBehavior : MonoBehaviour
 {
+    public GameBehavior GameManager;
+    void Start()
+    {
+        GameManager = GameObject.Find("Game_Manager").GetComponent<GameBehavior>();
+    }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -12,16 +17,7 @@ public class ItemBehavior : MonoBehaviour
             Destroy(this.transform.gameObject);
             Debug.LogWarning("Item collected!");
         }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameManager.Items += 1;
     }
 }
