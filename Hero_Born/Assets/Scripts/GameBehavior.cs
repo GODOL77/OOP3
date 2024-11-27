@@ -12,6 +12,8 @@ public class GameBehavior : MonoBehaviour
     public TMP_Text ItemText;
     public TMP_Text ProgressText;
     public Button WinButton;
+    public Button LossButton;
+    private int _playerHP = 10;
 
     void Start()
     {
@@ -33,6 +35,7 @@ public class GameBehavior : MonoBehaviour
                 ProgressText.text = "You've found all teh items!";
 
                 WinButton.gameObject.SetActive(true);
+                UpdateScene("You've found all the items!");
                 Time.timeScale = 0f;
             }
             else
@@ -41,13 +44,6 @@ public class GameBehavior : MonoBehaviour
             }
         }
     }
-    public void RestartScene()
-    {
-        SceneManager.LoadScene(0);
-        Time.timeScale = 1f;
-    }
-
-    private int _playerHP = 10;
     public int HP
     {
         get { return _playerHP; }
@@ -56,7 +52,29 @@ public class GameBehavior : MonoBehaviour
             _playerHP = value;
 
             HealthText.text = "Health : " + HP;
+            if (_playerHP <= 0)
+            {
+                ProgressText.text = "You want another life with that?";
+                LossButton.gameObject.SetActive(true);
+                UpdateScene("You want o]another life with that?");
+                Time.timeScale = 0;
+            }
+            else
+            {
+                ProgressText.text = "Ouch... that's got hurt.";
+            }
             Debug.LogFormat("Lives : {0}", _playerHP);
         }
+    }
+    public void RestartScene()
+    {
+        SceneManager.LoadScene(0);
+        Time.timeScale = 1f;
+    }
+
+    public void UpdateScene(string updatedText)
+    {
+        ProgressText.text = updatedText;
+        Time.timeScale = 0f;
     }
 }
